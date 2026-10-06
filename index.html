@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#050505" />
+    <title>苗栗𪹚龍</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="viewer-shell">
+      <header class="masthead">
+        <p class="eyebrow">MIAOLI · FIRE DRAGON</p>
+        <h1>𪹚龍</h1>
+        <span class="scan-state" aria-label="360 度掃描展示">360°</span>
+      </header>
+
+      <section class="viewer" aria-label="可拖曳旋轉的𪹚龍頭盔展示">
+        <div class="halo halo-one"></div>
+        <div class="halo halo-two"></div>
+        <div class="image-window" id="imageWindow" tabindex="0" aria-roledescription="360 度影像檢視器" aria-label="向左或向右拖曳以旋轉頭盔">
+          <img id="helmetImage" draggable="false" alt="手工繪製的苗栗𪹚龍傳統工藝頭盔，多視角展示" />
+          <div class="scanlines" aria-hidden="true"></div>
+          <div class="gloss" aria-hidden="true"></div>
+        </div>
+        <div class="turn-hint" id="turnHint" aria-hidden="true">
+          <span class="arrow">←</span><span>拖曳旋轉</span><span class="arrow">→</span>
+        </div>
+      </section>
+
+      <footer class="control-deck">
+        <div class="progress" aria-hidden="true"><span id="progressFill"></span></div>
+        <p id="angleReadout" aria-live="polite">00°</p>
+      </footer>
+    </main>
+    <script src="./viewer.js"></script>
+  </body>
+</html>

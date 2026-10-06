@@ -1,0 +1,149 @@
+:root {
+  color-scheme: dark;
+  --paper: #f3f0e9;
+  --ink: #050505;
+  --faint: rgba(243, 240, 233, 0.5);
+  --line: rgba(243, 240, 233, 0.16);
+}
+
+* { box-sizing: border-box; }
+
+html, body { min-height: 100%; }
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.viewer-shell {
+  min-height: 100svh;
+  max-width: 620px;
+  margin: auto;
+  padding: max(21px, env(safe-area-inset-top)) 24px max(22px, env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background:
+    radial-gradient(ellipse 70% 32% at 50% 60%, rgba(163, 82, 25, 0.14), transparent 68%),
+    var(--ink);
+}
+
+.masthead {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "over scan" "title scan";
+  align-items: end;
+}
+
+.eyebrow {
+  grid-area: over;
+  margin: 0 0 4px;
+  font: 600 9px/1.1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .17em;
+  color: var(--faint);
+}
+
+h1 {
+  grid-area: title;
+  margin: 0;
+  font-size: 31px;
+  font-weight: 500;
+  letter-spacing: .08em;
+}
+
+.scan-state {
+  grid-area: scan;
+  margin-bottom: 1px;
+  font: 500 11px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .09em;
+  color: var(--paper);
+}
+
+.viewer {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  isolation: isolate;
+}
+
+.image-window {
+  position: relative;
+  width: min(88vw, 510px);
+  aspect-ratio: 1 / 1.12;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  z-index: 1;
+  background: #111;
+  box-shadow: 0 28px 90px rgba(0,0,0,.55);
+}
+
+.image-window::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border: 1px solid rgba(243,240,233,.22);
+  background: linear-gradient(180deg, rgba(0,0,0,.09), transparent 24%, transparent 77%, rgba(0,0,0,.34));
+}
+
+.image-window:active { cursor: grabbing; }
+.image-window:focus-visible { outline: 1px solid var(--paper); outline-offset: 5px; }
+
+#helmetImage {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center 39%;
+  transform: scale(1.05);
+  transition: opacity 100ms linear, transform 400ms cubic-bezier(.2,.75,.25,1);
+  pointer-events: none;
+  filter: saturate(.95) contrast(1.06) brightness(.87);
+}
+
+#helmetImage.frame-change { opacity: .42; transform: scale(1.075); }
+
+.scanlines, .gloss { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.scanlines {
+  opacity: .17;
+  background: repeating-linear-gradient(180deg, rgba(255,255,255,.15) 0 1px, transparent 1px 5px);
+  mix-blend-mode: soft-light;
+}
+.gloss { background: linear-gradient(116deg, transparent 35%, rgba(255,255,255,.14) 48%, transparent 58%); }
+
+.halo { position: absolute; border: 1px solid var(--line); border-radius: 50%; z-index: 0; pointer-events: none; }
+.halo-one { width: min(105vw, 590px); aspect-ratio: 1; }
+.halo-two { width: min(128vw, 710px); aspect-ratio: 1; border-color: rgba(243,240,233,.07); }
+
+.turn-hint {
+  position: absolute;
+  z-index: 4;
+  bottom: calc(50% - min(44vw, 255px));
+  transform: translateY(35px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  letter-spacing: .14em;
+  color: rgba(243,240,233,.83);
+  transition: opacity .45s ease, transform .45s ease;
+}
+.turn-hint.is-hidden { opacity: 0; transform: translateY(47px); }
+.arrow { font-size: 17px; font-weight: 200; line-height: .5; }
+
+.control-deck { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; }
+.progress { height: 1px; background: var(--line); overflow: hidden; }
+.progress span { display: block; height: 100%; width: 0%; background: var(--paper); transition: width 160ms linear; }
+#angleReadout { margin: 0; min-width: 35px; text-align: right; font: 500 10px/1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .05em; color: var(--faint); }
+
+@media (min-width: 650px) {
+  .viewer-shell { padding-left: 32px; padding-right: 32px; }
+  .image-window { width: min(74vw, 510px); }
+}
